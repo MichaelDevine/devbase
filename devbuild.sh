@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t devbase-image ./docker
+docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t devbase-image ./docker

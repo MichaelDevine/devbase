@@ -43,7 +43,7 @@ docker build -t devbase-image ./docker
 # Now, run the docker image. The user subdirectory "source" will be linked to 
 # the host user's subdirectory for this repo
 export SRC_DIR=$(pwd)
-docker run -it -d --net=host -e DISPLAY -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v $SRC_DIR:/home/devuser/source --name devbase-container devbase-image
+docker run -it -d --net=host -e DISPLAY -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v $SRC_DIR:/home/devuser/source:rw --name devbase-container devbase-image
 
 # Shell into the container
 docker start devbase-container 

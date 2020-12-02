@@ -2,9 +2,15 @@
 
 FROM ubuntu:20.04
 
+# Enable passing UID from host
+ARG UNAME=devuser
+ARG UID=1000
+ARG GID=1000
+
 # Suppress the tzdata prompt
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Build and other Basics
 RUN apt-get update && apt-get install -y \
   apt-transport-https \
   build-essential \
@@ -14,6 +20,8 @@ RUN apt-get update && apt-get install -y \
   sudo \
   wget \
   xauth \
+  nano \
+  iproute2 \
   && rm -rf /var/lib/apt/lists/*
   
 # For X11
@@ -46,7 +54,8 @@ RUN apt-get update \
 #  && rm -rf /var/lib/apt/lists/*
 
 # Now, add the non-root user and switch to it
-RUN adduser --disabled-password --gecos '' devuser \
+RUN addgroup --gid $GID $UNAME
+RUN adduser --gid $GID --uid $UID --disabled-password --gecos '' $UNAME \
   && echo "devuser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/devuser \
   && chmod 0440 /etc/sudoers.d/devuser
 USER devuser
