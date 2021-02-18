@@ -34,6 +34,18 @@ RUN apt-get update && apt-get install -y \
   libcanberra-gtk-module \
   libcanberra-gtk3-module \
   && rm -rf /var/lib/apt/lists/*
+  
+# For avahi and mDNS
+# This line is needed so that resolvconf can be installed successfully in Docker
+RUN echo "resolvconf resolvconf/linkify-resolvconf boolean false" | debconf-set-selections
+RUN apt-get update && apt-get install -y \
+  iputils-ping \
+  avahi-daemon \
+  avahi-dnsconfd \
+  avahi-discover \
+  avahi-utils \
+  libnss-mdns \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install the Microsoft repository for code
 RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg

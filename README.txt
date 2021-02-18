@@ -49,6 +49,11 @@ docker run -it -d --net=host -e DISPLAY -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v
 docker start devbase-container 
 docker exec -it devbase-container /bin/bash
 
+# For avahi to work, these have to be run
+sudo /etc/init.d/dbus start
+sudo /etc/init.d/avahi-daemon start
+
+
 ######
 ## Code depends on googltest -- should this be pulled inside the container, or outside? 
 git clone https://github.com/google/googletest.git
